@@ -30,7 +30,7 @@ from set_config import AUTO_REDIRECT as auto_redirect  # Boolean
 from set_config import UNC_EMBED as unc_embed  # Boolean
 sys.path.append(definepath)
 
-track_email = check_config("TRACK_EMAIL_ADDRESSES=").lower()
+track_email = check_config("TRACK_EMAIL_ADDRESSES").lower()
 
 # Open the IPADDR file
 if check_options("IPADDR=") != 0:
@@ -376,7 +376,7 @@ try:
                 filewrite.write(data3)
                 filewrite.close()
                 print_status("Copying over files to Apache server...")
-                apache_dir = check_config("APACHE_DIRECTORY=")
+                apache_dir = check_config("APACHE_DIRECTORY")
                 if os.path.isdir(apache_dir + "/html"):
                     apache_dir = apache_dir + "/html"
                 shutil.copyfile(userconfigpath + "web_clone/index.html",

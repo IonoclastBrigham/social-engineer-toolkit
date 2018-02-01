@@ -7,7 +7,7 @@ import time
 from src.core.setcore import *
 
 # grab stage encoding flag
-stage_encoding = check_config("STAGE_ENCODING=").lower()
+stage_encoding = check_config("STAGE_ENCODING").lower()
 if stage_encoding == "off":
     stage_encoding = "false"
 else:
@@ -20,7 +20,7 @@ powershell_solo = check_options("POWERSHELL_SOLO")
 port = check_options("PORT=")
 
 # check if we are using auto_migrate
-auto_migrate = check_config("AUTO_MIGRATE=")
+auto_migrate = check_config("AUTO_MIGRATE")
 
 # check if we are using pyinjection
 pyinjection = check_options("PYINJECTION=")
@@ -41,14 +41,14 @@ else:
     update_options("IPADDR=" + ipaddr)
 
 # check to see if we are using multi powershell injection
-multi_injection = check_config("POWERSHELL_MULTI_INJECTION=").lower()
+multi_injection = check_config("POWERSHELL_MULTI_INJECTION").lower()
 
 # turn off multi injection if pyinjection is specified
 if pyinjection == "on":
     multi_injection = "off"
 
 # check what payloads we are using
-powershell_inject_x86 = check_config("POWERSHELL_INJECT_PAYLOAD_X86=")
+powershell_inject_x86 = check_config("POWERSHELL_INJECT_PAYLOAD_X86")
 
 # if we specified a hostname then default to reverse https/http
 if validate_ip(ipaddr) == False:
@@ -114,7 +114,7 @@ multi_injection_x86 = ""
 
 # here we do some funky loops so we don't need to rewrite the code below
 if multi_injection == "on":
-    port = check_config("POWERSHELL_MULTI_PORTS=")
+    port = check_config("POWERSHELL_MULTI_PORTS")
     port = port.split(",")
 
 if multi_injection == "on":
@@ -190,7 +190,7 @@ if multi_injection == "on" or pyinjection == "on":
     x86 = multi_injection_x86[1:]  # remove comma at beginning
 
 # check to see if we want to display the powershell command to the user
-verbose = check_config("POWERSHELL_VERBOSE=")
+verbose = check_config("POWERSHELL_VERBOSE")
 if verbose.lower() == "on":
     print_status("Printing the x86 based encoded code...")
     time.sleep(3)

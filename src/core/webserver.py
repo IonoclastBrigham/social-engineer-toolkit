@@ -6,7 +6,7 @@ import sys
 from src.core.setcore import *
 
 # specify the web port
-web_port = check_config("WEB_PORT=")
+web_port = check_config("WEB_PORT")
 
 
 class StoppableHttpRequestHandler(http.server.SimpleHTTPRequestHandler):

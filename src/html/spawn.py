@@ -15,7 +15,7 @@ import socket
 import datetime
 
 # see if we are tracking emails
-track_email = check_config("TRACK_EMAIL_ADDRESSES=").lower()
+track_email = check_config("TRACK_EMAIL_ADDRESSES").lower()
 
 # grab the randomized applet name
 applet_name = check_options("APPLET_NAME=")
@@ -84,9 +84,9 @@ def web_server_start():
     # define if use apache or not
     apache = 0
     # open set_config here
-    apache_check = check_config("APACHE_SERVER=").lower()
+    apache_check = check_config("APACHE_SERVER").lower()
     if apache_check == "on" or track_email == "on":
-        apache_path = check_config("APACHE_DIRECTORY=")
+        apache_path = check_config("APACHE_DIRECTORY")
         if os.path.isdir(apache_path + "/html"):
             apache_path = apache_path + "/html"
         apache = 1
@@ -94,7 +94,7 @@ def web_server_start():
             apache = 0
 
     # specify the web port
-    web_port = check_config("WEB_PORT=")
+    web_port = check_config("WEB_PORT")
 
     # see if exploit requires webdav
     if os.path.isfile(userconfigpath + "meta_config"):
@@ -384,14 +384,14 @@ def web_server_start():
 apache = 0
 
 # open set_config here
-apache_check = check_config("APACHE_SERVER=").lower()
+apache_check = check_config("APACHE_SERVER").lower()
 if apache_check == "on" or track_email == "on":
-    apache_path = check_config("APACHE_DIRECTORY=")
+    apache_path = check_config("APACHE_DIRECTORY")
     apache = 1
     if operating_system == "windows":
         apache = 0
 
-web_server = check_config("WEB_PORT=")
+web_server = check_config("WEB_PORT")
 
 # setup multi attack options here
 multiattack = "off"
@@ -413,7 +413,7 @@ if os.path.isfile(userconfigpath + "site.template"):
 
 # Test to see if something is running on port 80, if so throw error
 try:
-    web_port = check_config("WEB_PORT=")
+    web_port = check_config("WEB_PORT")
     web_port = int(web_port)
     ipaddr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ipaddr.connect(('127.0.0.1', web_port))
@@ -474,7 +474,7 @@ try:
         if operating_system == "posix":
             if apache == 1:
                 try:
-                    web_port = check_config("WEB_PORT=")
+                    web_port = check_config("WEB_PORT")
                     web_port = int(web_port)
                     ipaddr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     ipaddr.connect(('127.0.0.1', web_port))
@@ -565,7 +565,7 @@ try:
         print_info("Launching MSF Listener...")
         print_info("This may take a few to load MSF...")
         # this checks to see if we want to start a listener
-        automatic_listener = check_config("AUTOMATIC_LISTENER=").lower()
+        automatic_listener = check_config("AUTOMATIC_LISTENER").lower()
         if automatic_listener != "off":
             try:
                 module_reload(pexpect)
@@ -581,7 +581,7 @@ try:
                     "%smsfconsole -r %s/%s\r\n\r\n" % (msf_path, userconfigpath, meta_config))
             # check if we want to deliver emails or track users that click the
             # link
-            webattack_email = check_config("WEBATTACK_EMAIL=").lower()
+            webattack_email = check_config("WEBATTACK_EMAIL").lower()
             if webattack_email == "on" or track_email == "on":
                 try:
                     module_reload(src.phishing.smtp.client.smtp_web)
@@ -689,7 +689,7 @@ if apache == 1:
 # we stop the python web server when we are all finished
 if apache == 0:
     # specify the web port
-    web_port = check_config("WEB_PORT=")
+    web_port = check_config("WEB_PORT")
     # stop the web server
     try:
         import src.core.webserver as webserver
@@ -698,6 +698,6 @@ if apache == 0:
     webserver.stop_server(web_port)
 
 # call the cleanup routine
-cleanup = check_config("CLEANUP_ENABLED_DEBUG=")
+cleanup = check_config("CLEANUP_ENABLED_DEBUG")
 if cleanup.lower() != "on":
     cleanup_routine()

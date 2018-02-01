@@ -41,15 +41,15 @@ for line in fileopen:
 # set ssl flag to false by default
 ssl_flag = "false"
 # SEE IF WE WANT TO USE SSL
-ssl_check = check_config("WEBATTACK_SSL=").lower()
+ssl_check = check_config("WEBATTACK_SSL").lower()
 if ssl_check == "on":
     ssl_flag = "true"
 
 # check apache mode
-apache_mode = check_config("APACHE_SERVER=").lower()
+apache_mode = check_config("APACHE_SERVER").lower()
 # if we are turned on this will change to /post.php
 
-track_user = check_config("TRACK_EMAIL_ADDRESSES=").lower()
+track_user = check_config("TRACK_EMAIL_ADDRESSES").lower()
 if track_user == "on":
     apache_mode = "on"
 

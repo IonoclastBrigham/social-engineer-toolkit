@@ -113,24 +113,24 @@ def update_config():
 CONFIG_DATE='""" + timestamp + """'\n""")
     for line in init_file:
         try:
-            if not line.startswith("#"):
-                line = line.rstrip()
-                line = line.split("=")
-                setting = line[0]
-                value = line[1]
-                if value == "ON":
-                    value = "True"
-                elif value == "OFF":
-                    value = "False"
-                else:
-                    pass
+            line = line.rstrip()
+            if line.startswith("#") or line == "":
+                continue
 
-                quoted = value_type(setting)
+            line = line.split("=", 1)
+            setting = line[0]
+            value = line[1]
+            if value == "ON":
+                value = "True"
+            elif value == "OFF":
+                value = "False"
 
-                if quoted:
-                    new_config.write(setting + '="' + value + '"\n')
-                else:
-                    new_config.write(setting + '=' + value + '\n')
+            quoted = value_type(setting)
+
+            if quoted:
+                new_config.write(setting + '="' + value + '"\n')
+            else:
+                new_config.write(setting + '=' + value + '\n')
         except:
             pass
 

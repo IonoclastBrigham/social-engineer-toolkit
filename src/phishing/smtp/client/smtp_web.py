@@ -36,7 +36,7 @@ message_flag = "plain"
 from src.core.setcore import *
 
 # do we want to track the users that click links
-track_email = check_config("TRACK_EMAIL_ADDRESSES=").lower()
+track_email = check_config("TRACK_EMAIL_ADDRESSES").lower()
 
 definepath = os.getcwd()
 
@@ -393,7 +393,7 @@ if option1 == '2':
         if track_email.lower() == "on":
             body_new = body_new.replace("INSERTUSERHERE", base64.b64encode(to))
         # send the actual email
-        time_delay = check_config("TIME_DELAY_EMAIL=").lower()
+        time_delay = check_config("TIME_DELAY_EMAIL").lower()
         time.sleep(int(time_delay))
         mail(to, subject, prioflag1, prioflag2, body_new)
         email_num = email_num + 1

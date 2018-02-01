@@ -111,7 +111,7 @@ if operating_system == "posix":
                      "chmod +x src/payloads/set_payloads/listener.py",
                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
-dns = core.check_config("DNS_SERVER=")
+dns = core.check_config("DNS_SERVER")
 if dns.lower() == "on":
     core.start_dns()
 

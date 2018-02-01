@@ -331,7 +331,7 @@ def meta_path():
     try:
 
         # pull from config first
-        msf_path = check_config("METASPLOIT_PATH=")
+        msf_path = check_config("METASPLOIT_PATH")
         if not msf_path.endswith("/"):
             msf_path = msf_path + "/"
         if os.path.isfile(msf_path + "msfconsole"):
@@ -401,7 +401,7 @@ def meta_path():
         print_status("Something went wrong. Printing error: " + str(e))
 
     # this is an option if we don't want to use Metasploit period
-    check_metasploit = check_config("METASPLOIT_MODE=").lower()
+    check_metasploit = check_config("METASPLOIT_MODE").lower()
     if check_metasploit != "on":
         msf_path = False
     return msf_path
@@ -1364,27 +1364,23 @@ def kill_proc(port, flag):
         subprocess.Popen("kill -9 %s" % (b), stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE, shell=True).wait()
 
-
-# check the config file and return value
+# check the config file at runtime and return value
 def check_config(param):
-    fileopen = open("/etc/setoolkit/set.config", "r")
-    for line in fileopen:
-        line = line.rstrip()
-        # print line
-        # if the line starts with the param we want then we are set, otherwise
-        # if it starts with a # then ignore
-        if line.startswith(param) != "#":
-            if line.startswith(param):
-                line = line.rstrip()
-                # remove any quotes or single quotes
-                line = line.replace('"', "")
-                line = line.replace("'", "")
-                line = line.split("=", 1)
-                return line[1]
+    with open("/etc/setoolkit/set.config", "r") as config:
+        for line in config:
+            # ignore comments and empty lines
+            line = line.rstrip()
+            if line.startswith("#") or line == "":
+                continue
+
+            # remove any quotes or single quotes
+            line = line.replace('"', "").replace("'", "")
+
+            # return the value, if found
+            if line.startswith(param + '='):
+                return line[len(param) + 1:]
 
 # copy an entire folder function
-
-
 def copyfolder(sourcePath, destPath):
     for root, dirs, files in os.walk(sourcePath):
 

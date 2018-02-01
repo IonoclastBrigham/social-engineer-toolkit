@@ -131,9 +131,9 @@ for line in fileopen:
 
 # this checks the set_config to see if we need to redirect to a different
 # website instead of the one cloned
-harvester_redirect = check_config("HARVESTER_REDIRECT=")
+harvester_redirect = check_config("HARVESTER_REDIRECT")
 if harvester_redirect.lower() == "on":
-    URL = check_config("HARVESTER_URL=")
+    URL = check_config("HARVESTER_URL")
     counter = 1
 
 if counter == 0:
@@ -333,7 +333,7 @@ class SETHandler(BaseHTTPRequestHandler):
             if match2:
                 # if you don't want to capture a password, turn this off, note
                 # not an exact science
-                log_password = check_config("HARVESTER_LOG_PASSWORDS=")
+                log_password = check_config("HARVESTER_LOG_PASSWORDS")
                 if log_password.lower() == "on":
                     print(bcolors.RED + "POSSIBLE PASSWORD FIELD FOUND: " + line + "\r" + bcolors.GREEN)
                 else:
@@ -370,9 +370,9 @@ class SETHandler(BaseHTTPRequestHandler):
 
         # this checks the set_config to see if we need to redirect to a
         # different website instead of the one cloned
-        harvester_redirect = check_config("HARVESTER_REDIRECT=")
+        harvester_redirect = check_config("HARVESTER_REDIRECT")
         if harvester_redirect.lower() == "on":
-            RAW_URL = check_config("HARVESTER_URL=")
+            RAW_URL = check_config("HARVESTER_URL")
             counter = 1
 
         # when done posting send them back to the original site
@@ -494,7 +494,7 @@ def run():
 
         try:
 
-            apache_dir = check_config("APACHE_DIRECTORY=")
+            apache_dir = check_config("APACHE_DIRECTORY")
             if os.path.isdir(apache_dir + "/html"):
                 apache_dir = apache_dir + "/html"
             print(bcolors.GREEN + "Apache webserver is set to ON. Copying over PHP file to the website.")

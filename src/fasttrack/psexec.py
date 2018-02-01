@@ -33,7 +33,7 @@ except NameError:
 # msf auxiliary(psexec_command) >
 
 # grab config options for stage encoding
-stage_encoding = core.check_config("STAGE_ENCODING=").lower()
+stage_encoding = core.check_config("STAGE_ENCODING").lower()
 if stage_encoding == "off":
     stage_encoding = "false"
 else:
@@ -53,7 +53,7 @@ if domain == "":
 if threads == "":
     threads = "15"
 
-payload = core.check_config("POWERSHELL_INJECT_PAYLOAD_X86=").lower()
+payload = core.check_config("POWERSHELL_INJECT_PAYLOAD_X86").lower()
 
 #
 # payload generation for powershell injection
