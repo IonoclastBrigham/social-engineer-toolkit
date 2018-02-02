@@ -32,8 +32,6 @@ elif os.path.isdir("/usr/share/set"):
 # make sure the config file is located in /etc/setoolkit
 if not os.path.isdir("/etc/setoolkit/"):
     os.makedirs("/etc/setoolkit/")
-    shutil.copyfile("src/core/config.baseline", "/etc/setoolkit/set.config")
-
 if not os.path.isfile("/etc/setoolkit/set.config"):
     shutil.copyfile("src/core/config.baseline", "/etc/setoolkit/set.config")
 
@@ -119,7 +117,7 @@ if dns.lower() == "on":
 for root, dirs, files in os.walk(core.userconfigpath):
     for f in files:
         try:
-            match = re.search(".svn|entries|all-wcprops|props|text-base|prop-base|tmp", f)
+            match = re.search(".svn|entries|all-wcprops|props|text-base|prop-base|tmp|set_config.py", f)
             if not match:
                 os.unlink(os.path.join(root, f))
 
@@ -136,20 +134,14 @@ for root, dirs, files in os.walk(core.userconfigpath):
             pass
 
 # if windows then do some stuff
-if operating_system == "posix":
-
-    #
-    # ROOT CHECK
-    #
-
-    if os.geteuid() != 0:
-        print("\n The Social-Engineer Toolkit (SET) - by David Kennedy (ReL1K)")
-        print("\n Not running as root. \n\nExiting the Social-Engineer Toolkit (SET).\n")
-        core.exit_set()
-
-# if there isn't a set_config.py file yet, create one
-if not os.path.isfile("/etc/setoolkit/set_config.py"):
-    update_config()
+# if operating_system == "posix":
+#     #
+#     # ROOT CHECK
+#     #
+#     if os.geteuid() != 0:
+#         print("\n The Social-Engineer Toolkit (SET) - by David Kennedy (ReL1K)")
+#         print("\n Not running as root. \n\nExiting the Social-Engineer Toolkit (SET).\n")
+#         core.exit_set()
 
 define_version = core.get_version()
 core.cleanup_routine()

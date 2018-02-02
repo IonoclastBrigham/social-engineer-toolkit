@@ -12,7 +12,7 @@ update_config.py:
     upon.
 """
 import os
-from src.core.setcore import print_status, print_info, print_error, return_continue
+from src.core.setcore import print_status, print_info, print_error, return_continue, userconfigpath
 import datetime
 from time import sleep
 
@@ -90,11 +90,16 @@ def value_type(value):
 
 
 def update_config():
-    if not os.path.isdir("/etc/setoolkit"):
-        os.makedirs("/etc/setoolkit")
+    in_config_path = "/etc/setoolkit/"
+    out_config_path = userconfigpath
 
-    init_file = open("/etc/setoolkit/set.config", "r")
-    new_config = open("/etc/setoolkit/set_config.py", "w")
+    if not os.path.isdir(in_config_path):
+        os.makedirs(in_config_path)
+    if not os.path.isdir(out_config_path):
+        os.makedirs(out_config_path)
+
+    init_file = open(in_config_path + "set.config", "r")
+    new_config = open(out_config_path + "set_config.py", "w")
     timestamp = str(datetime.datetime.now())
 
     new_config.write("""#!/usr/bin/python\n
@@ -134,13 +139,15 @@ CONFIG_DATE='""" + timestamp + """'\n""")
         except:
             pass
 
+    if not os.path.isdir(out_config_path):
+        print("CONFIG DIR FAILED")
     init_file.close()
     new_config.close()
     sleep(1)
-    sys.path.append("/etc/setoolkit")
-    from set_config import CONFIG_DATE as verify
-    print_info("New set.config.py file generated on: %s" % timestamp)
+    sys.path.append(out_config_path)
+    print_info("New set_config.py file generated on: %s" % timestamp)
     print_info("Verifying configuration update...")
+    from set_config import CONFIG_DATE as verify
     if verify == timestamp:
         print_status("Update verified, config timestamp is: %s" % timestamp)
     else:
