@@ -16,6 +16,18 @@ from src.core.setcore import print_status, print_info, print_error, return_conti
 import datetime
 from time import sleep
 
+# python 2 / 3 / 3.4 compatibility
+try:
+    # python 3.4+
+    from importlib import reload
+except ImportError:
+    try:
+        # python 3.0-3.3
+        from imp import reload
+    except ImportError:
+        # python 2; use global function
+        pass
+
 definepath = os.getcwd()
 
 # TODO
@@ -142,11 +154,13 @@ CONFIG_DATE='""" + timestamp + """'\n""")
     init_file.close()
     new_config.close()
     sleep(1)
-    sys.path.append(out_config_path)
+    if not out_config_path in sys.path:
+        sys.path.append(out_config_path)
     print_info("New set_config.py file generated on: %s" % timestamp)
     print_info("Verifying configuration update...")
-    from set_config import CONFIG_DATE as verify
-    if verify == timestamp:
+    import set_config
+    reload(set_config) # reload in case we're updating
+    if set_config.CONFIG_DATE == timestamp:
         print_status("Update verified, config timestamp is: %s" % timestamp)
     else:
         print_error("Update failed? Timestamp on config file is: %s" % verify)
