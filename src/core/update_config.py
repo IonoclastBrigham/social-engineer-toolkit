@@ -12,21 +12,9 @@ update_config.py:
     upon.
 """
 import os
-from src.core.setcore import print_status, print_info, print_error, return_continue, userconfigpath
+from src.core.setcore import module_reload, print_status, print_info, print_error, return_continue, userconfigpath
 import datetime
 from time import sleep
-
-# python 2 / 3 / 3.4 compatibility
-try:
-    # python 3.4+
-    from importlib import reload
-except ImportError:
-    try:
-        # python 3.0-3.3
-        from imp import reload
-    except ImportError:
-        # python 2; use global function
-        pass
 
 definepath = os.getcwd()
 
@@ -159,7 +147,7 @@ CONFIG_DATE='""" + timestamp + """'\n""")
     print_info("New set_config.py file generated on: %s" % timestamp)
     print_info("Verifying configuration update...")
     import set_config
-    reload(set_config) # reload in case we're updating
+    module_reload(set_config) # reload in case we're updating
     if set_config.CONFIG_DATE == timestamp:
         print_status("Update verified, config timestamp is: %s" % timestamp)
     else:
