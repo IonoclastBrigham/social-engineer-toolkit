@@ -91,7 +91,7 @@ def value_type(value):
 
 def update_config():
     in_config_path = "/etc/setoolkit/"
-    out_config_path = userconfigpath
+    out_config_path = os.path.join(userconfigpath, "pyconf/")
 
     if not os.path.isdir(in_config_path):
         os.makedirs(in_config_path)
@@ -139,8 +139,6 @@ CONFIG_DATE='""" + timestamp + """'\n""")
         except:
             pass
 
-    if not os.path.isdir(out_config_path):
-        print("CONFIG DIR FAILED")
     init_file.close()
     new_config.close()
     sleep(1)

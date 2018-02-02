@@ -127,7 +127,7 @@ for root, dirs, files in os.walk(core.userconfigpath):
     # loop through all the directories
     for d in dirs:
         try:
-            match = re.search(".svn|entries|all-wcprops|props|text-base|prop-base|tmp", d)
+            match = re.search(".svn|entries|all-wcprops|props|text-base|prop-base|tmp|pyconf", d)
             if not match:
                 shutil.rmtree(os.path.join(root, d))
         except:
